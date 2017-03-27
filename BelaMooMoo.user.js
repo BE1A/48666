@@ -2,20 +2,18 @@
 // @name        BelaMooMoo
 // @namespace   buffPenta
 // @description buff penta shot
-// @version     1
+// @version     1.1
 // @author      Bela
 // @include     http://moomoo.io/*
 // @run-at      document-start
 // @grant       GM_getValue
 // @grant       GM_setValue
-// @downloadURL none
-// @updateURL   none
 // ==/UserScript==
 
 window.addEventListener('keyup', function(e)
 {
     var key = e.keyCode || e.which;
-    if(lastFocused)
+    if(lastFocused && !e.shiftKey)
     {
         GM_setValue("GM_Dobl_Key"+key, 0);
         holdingKey[key] = false;
@@ -29,7 +27,7 @@ window.addEventListener('keyup', function(e)
 window.addEventListener('keydown', function(e)
 {
     var key = e.keyCode || e.which;
-    if(lastFocused)
+    if(lastFocused && !e.shiftKey)
     {
         GM_setValue("GM_Dobl_Key"+key, 1);
         holdingKey[key] = true;
@@ -103,7 +101,7 @@ function tick()
         }
         canvas.addEventListener('mousemove', function(e)
         {
-            if(lastFocused)
+            if(lastFocused && !e.shiftKey)
             {
                 GM_setValue("GM_Dobl_MouseX", e.clientX / window.innerWidth);
                 GM_setValue("GM_Dobl_MouseY", e.clientY / window.innerHeight);
@@ -113,7 +111,7 @@ function tick()
         });
         canvas.addEventListener('mousedown', function(e)
         {
-            if(lastFocused)
+            if(lastFocused && !e.shiftKey)
             {
                 var button = e.button;
                 GM_setValue("GM_Dobl_Mouse"+button, 1);
@@ -122,7 +120,7 @@ function tick()
         });
         canvas.addEventListener('mouseup', function(e)
         {
-            if(lastFocused)
+            if(lastFocused && !e.shiftKey)
             {
                 var button = e.button;
                 GM_setValue("GM_Dobl_Mouse"+button, 0);
@@ -202,6 +200,10 @@ function SyncKeys()
     var down = GM_getValue("GM_Dobl_Key40");
 
     var key_e = GM_getValue("GM_Dobl_Key69");
+    var key_w = GM_getValue("GM_Dobl_Key87");
+    var key_a = GM_getValue("GM_Dobl_Key65");
+    var key_s = GM_getValue("GM_Dobl_Key83");
+    var key_d = GM_getValue("GM_Dobl_Key68");
 
     var num_1 = GM_getValue("GM_Dobl_Key49");
     var num_2 = GM_getValue("GM_Dobl_Key50");
@@ -219,6 +221,10 @@ function SyncKeys()
     if(holdingKey[52] != num_4){holdingKey[52] = num_4;simulateKeyPress(52, num_4);}
     if(holdingKey[53] != num_5){holdingKey[53] = num_5;simulateKeyPress(53, num_5);}
 
+    if(holdingKey[87] != key_w){holdingKey[87] = key_w;simulateKeyPress(87, key_w);}
+    if(holdingKey[83] != key_s){holdingKey[83] = key_s;simulateKeyPress(83, key_s);}
+    if(holdingKey[68] != key_d){holdingKey[68] = key_d;simulateKeyPress(68, key_d);}
+    if(holdingKey[65] != key_a){holdingKey[65] = key_a;simulateKeyPress(65, key_a);}
     if(holdingKey[69] != key_e){holdingKey[69] = key_e;simulateKeyPress(69, key_e);}
 }
 
