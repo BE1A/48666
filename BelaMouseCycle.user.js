@@ -2,7 +2,7 @@
 // @name        BelaMouseCycle
 // @namespace   lol
 // @description buff penta
-// @version     1
+// @version     1.1
 // @author      Bela
 // @include     http://diep.io/*
 // @connect     diep.io
@@ -17,8 +17,8 @@ var timePassed = 0;
 var timeLast = timeStart;
 var timeUnit = 15;
 
-document.getElementById("canvas").style.pointerEvents = "none";
-document.getElementById("canvas").style.pointerEvents = "all";
+//document.getElementById("canvas").style.pointerEvents = "none";
+//document.getElementById("canvas").style.pointerEvents = "all";
 
 document.addEventListener('keyup', function(e)
 {
