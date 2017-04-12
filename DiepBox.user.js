@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        DiepBox
 // @description Diep.io Multibox Extension
-// @version     1
+// @version     1.1
 // @author      u/BE1A (reddit)
 // @include     http://diep.io/*
 // @connect     diep.io
@@ -9,7 +9,7 @@
 // @grant       GM_setValue
 // @run-at      document-start
 // ==/UserScript==
-
+/**Pressing Shift while you press the arrow keys will move the tanks individually now.**/
 var isFocused = 0;
 var holdingKey = {};
 var holdingMouse = {};
@@ -21,6 +21,10 @@ var const_SC = getScreenConstant();
     document.addEventListener('keyup', function(e)
     {
 		var key = e.keyCode || e.which;
+        if(e.shiftKey)
+        {
+            return;
+        }
         GM_setValue("GM_Diep_Key"+key, 0);
         holdingKey[key] = false;
 	});
@@ -28,6 +32,10 @@ var const_SC = getScreenConstant();
 	document.addEventListener('keydown', function(e)
 	{
 		var key = e.keyCode || e.which;
+        if(e.shiftKey)
+        {
+            return;
+        }
 		if(holdingKey[key]) { e.stopPropagation(); return; }
         GM_setValue("GM_Diep_Key"+key, 1);
         holdingKey[key] = true;
