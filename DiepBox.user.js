@@ -46,14 +46,12 @@ var const_SC = getScreenConstant();
         var button = e.button;
         holdingMouse[button] = true;
         GM_setValue("GM_Diep_Mouse"+button, 1);
-        GM_setValue("GM_Diep_Mouse"+button, 1);
 	});
 
     document.addEventListener('mouseup', function(e)
 	{
         var button = e.button;
         holdingMouse[button] = false;
-        GM_setValue("GM_Diep_Mouse"+button, 0);
         GM_setValue("GM_Diep_Mouse"+button, 0);
 	});
 
