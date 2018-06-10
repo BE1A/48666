@@ -271,11 +271,17 @@ var const_SC = getScreenConstant();
 		var eventObj;
         if(press)
         {
-            canvas.dispatchEvent(new MouseEvent('mousedown', { 'clientX': clientX, 'clientY': clientY, 'button': button, 'mozPressure' : 1.0 }));
+            if(!(typeof canvas === 'undefined'))
+            {
+                canvas.dispatchEvent(new MouseEvent('mousedown', { 'clientX': clientX, 'clientY': clientY, 'button': button, 'mozPressure' : 1.0 }));
+            }
         }
 		else
         {
-		    canvas.dispatchEvent(new MouseEvent('mouseup', { 'clientX': clientX, 'clientY': clientY, 'button': button, 'mozPressure' : 1.0 }));
+		    if(!(typeof canvas === 'undefined'))
+            {
+                canvas.dispatchEvent(new MouseEvent('mouseup', { 'clientX': clientX, 'clientY': clientY, 'button': button, 'mozPressure' : 1.0 }));
+            }
         }
 	}
 
