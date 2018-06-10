@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        DiepBox
 // @description Diep.io Multibox Extension
-// @version     1.1
+// @version     1
 // @author      u/BE1A (reddit)
 // @include     http://diep.io/*
 // @connect     diep.io
@@ -9,7 +9,7 @@
 // @grant       GM_setValue
 // @run-at      document-start
 // ==/UserScript==
-/**Pressing Shift while you press the arrow keys will move the tanks individually now.**/
+
 var isFocused = 0;
 var holdingKey = {};
 var holdingMouse = {};
@@ -46,12 +46,14 @@ var const_SC = getScreenConstant();
         var button = e.button;
         holdingMouse[button] = true;
         GM_setValue("GM_Diep_Mouse"+button, 1);
+        GM_setValue("GM_Diep_Mouse"+button, 1);
 	});
 
     document.addEventListener('mouseup', function(e)
 	{
         var button = e.button;
         holdingMouse[button] = false;
+        GM_setValue("GM_Diep_Mouse"+button, 0);
         GM_setValue("GM_Diep_Mouse"+button, 0);
 	});
 
@@ -125,7 +127,10 @@ var const_SC = getScreenConstant();
         var button2 = GM_getValue("GM_Diep_Mouse2");
 
         var clamped = GetCoordClamp(dX + innerWidth / 2, dY + innerHeight / 2);
-		canvas.dispatchEvent(new MouseEvent('mousemove', { 'clientX': clamped[0], 'clientY': clamped[1] }));
+        if(!(typeof canvas === 'undefined'))
+        {
+            canvas.dispatchEvent(new MouseEvent('mousemove', { 'clientX': clamped[0], 'clientY': clamped[1] }));
+        }
         if(holdingMouse[0] != button0)
         {
             holdingMouse[0] = button0;
