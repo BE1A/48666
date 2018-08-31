@@ -4,6 +4,7 @@
 // @version     1
 // @author      u/BE1A (reddit)
 // @include     http://diep.io/*
+// @include     https://diep.io/*
 // @connect     diep.io
 // @grant       GM_getValue
 // @grant       GM_setValue
