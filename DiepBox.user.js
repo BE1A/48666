@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        DiepBox
 // @description Diep.io Multibox Extension
-// @version     1
+// @version     1.2
 // @author      u/BE1A (reddit)
 // @include     http://diep.io/*
 // @include     https://diep.io/*
