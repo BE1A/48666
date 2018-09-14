@@ -63,8 +63,8 @@ IMG_StackedHunter.tick = function()
 {
     if(isFirstTick)
     {
-        fire(0.00,0.100);
-        hold(0.75,0.200);
+        fire(0.660,0.050);
+        hold(0.750,0.200);
         isFirstTick = false;
     }
 };
@@ -77,9 +77,9 @@ IMG_StackedPreda.tick = function()
 {
     if(isFirstTick)
     {
-        fire(0.00,0.100);
-        fire(0.75,0.200);
-        hold(1.50,0.200);
+        fire(0.000,0.100);
+        fire(0.750,0.200);
+        hold(1.500,0.200);
         isFirstTick = false;
     }
 };
