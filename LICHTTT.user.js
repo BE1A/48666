@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         LICHTTTT
+// @name         LICHTTTT2
 // @namespace    LICHH!!!?!T?
 // @version      0.1
 // @description  LIHTCCHTHTCTHTC!?!??!
@@ -15,6 +15,13 @@ var picArray = [];
 var lastButtonClicked;
 var timeNow;
 var isFirstTick = true;
+var ticksPassed = 0;
+var mouseOverriden = false;
+
+var lastMouseX = 0;
+var lastMouseY = 0;
+var stackMode = -1;
+
 
 function loadImage(lolol) {
     var img = new Image();
@@ -24,11 +31,9 @@ function loadImage(lolol) {
     img.crossOrigin = 'Anonymous';
     document.body.appendChild(img.canvas);
     document.body.insertBefore(img.canvas, document.body.childNodes[document.body.childNodes - 1]);
-    img.onload = function () {
+    img.onload = function ()
+    {
         img.crossOrigin = 'Anonymous';
-        //img.canvas.width = img.width;
-        //img.canvas.height = img.height;
-        //img.ctx.drawImage(img, 0, 0, img.width, img.height);
     };
     if(picsLoaded > 0)
     {
@@ -41,39 +46,122 @@ function loadImage(lolol) {
     return img;
 }
 
+function fire(t,w)
+{
+    setTimeout(function(){simulateKeyPress(32, true);}, t*1000*reloadMult);
+    setTimeout(function(){simulateKeyPress(32, false);}, (t+w)*1000*reloadMult);
+}
+
+function hold(t,w)
+{
+    setTimeout(function(){simulateKeyPress(69, true);}, t*1000*reloadMult);
+    setTimeout(function(){simulateKeyPress(69, false);}, (t+w)*1000*reloadMult);
+}
+
+var reload = 7;
+var reloadMult = (2 - reload / 7);
+
+function overrideMouse(boo)
+{
+    mouseOverriden = boo;
+    if(boo)
+    {
+        IMG_Advanced.canvas.style.pointerEvents = "all";
+    }
+    else
+    {
+        IMG_Advanced.canvas.style.pointerEvents = "none";
+    }
+}
+
+function mouseRotate(x,y,ang)
+{
+    var newXY = rotateAngle(x - window.innerWidth / 2, y - window.innerHeight / 2, ang);
+    newXY[0] += window.innerWidth / 2;
+    newXY[1] += window.innerHeight / 2;
+    newXY = GetCoordClamp(newXY[0], newXY[1]);
+    simulateMouseMove(newXY[0], newXY[1]);
+}
+
 var IMG_Advanced = loadImage("https://i.imgur.com/w1Afl2L.png");
 var IMG_StackedPenta = loadImage("https://i.imgur.com/m2w3vaz.png");
-IMG_StackedPenta.tick = function(){};
+IMG_StackedPenta.tick = function()
+{
+    if(isFirstTick)
+    {
+        hold(0.000,0.050);
+        isFirstTick = false;
+        overrideMouse(true);
+    }
+    var timeCog = ((ticksPassed) / 106.84) % 6;
+    if(timeCog >= 3)
+    {
+        timeCog = -timeCog + 3;
+    }
+    mouseRotate(lastMouseX,lastMouseY,timeCog * 22.5);
+};
 var IMG_StackedOcto = loadImage("https://i.imgur.com/UWjpc0K.png");
 IMG_StackedOcto.tick = function(){};
 var IMG_StackedSpreda = loadImage("https://i.imgur.com/D6b7CUk.png");
 IMG_StackedSpreda.tick = function(){};
 var IMG_StackedHunter = loadImage("https://i.imgur.com/1It6rz7.png");
-IMG_StackedHunter.tick = function(){};
+IMG_StackedHunter.tick = function()
+{
+    if(isFirstTick)
+    {
+        fire(0.000,0.050);
+        hold(0.666,0.200);
+        isFirstTick = false;
+        overrideMouse(false);
+    }
+};
 var IMG_StackedGunTrap = loadImage("https://i.imgur.com/EeJq9ot.png");
-IMG_StackedGunTrap.tick = function(){};
+IMG_StackedGunTrap.tick = function()
+{
+    if(isFirstTick)
+    {
+        hold(0.000,0.050);
+        isFirstTick = false;
+        overrideMouse(true);
+    }
+    var timeCog = ((ticksPassed - 115) / 106.84) % 8;
+    if(timeCog > 7 || timeCog < 2)
+    {
+        timeCog = 1;
+    }
+    else
+    {
+        timeCog = 0;
+    }
+    mouseRotate(lastMouseX,lastMouseY,timeCog * 180);
+};
 var IMG_StackedStream = loadImage("https://i.imgur.com/FkUVRdm.png");
-IMG_StackedStream.tick = function(){};
+IMG_StackedStream.tick = function()
+{
+    if(isFirstTick)
+    {
+        var unit = 0.04;
+        var delay = 0.05;
+        fire(0.000,delay);
+        fire(unit,delay);
+        fire(unit*2,delay);
+        fire(unit*3,delay);
+        hold(unit*4,delay);
+        isFirstTick = false;
+        overrideMouse(false);
+    }
+};
 var IMG_StackedPreda = loadImage("https://i.imgur.com/Nq4Y242.png");
 IMG_StackedPreda.tick = function()
 {
     if(isFirstTick)
     {
-        function fire(t,w) {
-    setTimeout(function(){
-        input.keyDown(32);
-    }, t*1000);
-    setTimeout(function(){
-        input.keyUp(32);
-    }, t*1000+w);
-}
-
-fire(0,100);
-fire(0.75,200);
-fire(1.5,750);
-setTimeout(function(){input.keyDown(69);},2000);
+        fire(0.000,0.100);
+        fire(0.750,0.200);
+        hold(1.500,0.200);
+        isFirstTick = false;
+        overrideMouse(false);
     }
-    isFirstTick = false;
 };
 var IMG_StackedTwin1 = loadImage("https://i.imgur.com/ytqRMkq.png");
 IMG_StackedTwin1.tick = function(){};
@@ -86,28 +174,33 @@ IMG_StackedTriplet2.tick = function(){};
 var IMG_StackedTriplet3 = loadImage("https://i.imgur.com/RkvvqK4.png");
 IMG_StackedTriplet3.tick = function(){};
 
-var lastMouseX = 0;
-var lastMouseY = 0;
-var stackMode = -1;
-
 IMG_Advanced.canvas.style.pointerEvents = "none";
 IMG_Advanced.canvas.addEventListener('mousemove', function(e)
 {
     lastMouseX = e.clientX;
-    lastMouseX = e.clientY;
-    simulateMouseMove(e.clientX, e.clientY);
+    lastMouseY = e.clientY;
+    if(!mouseOverriden)
+    {
+        simulateMouseMove(e.clientX, e.clientY);
+    }
 });
 
 IMG_Advanced.canvas.addEventListener('mousedown', function(e)
 {
     var button = e.button;
-    simulateMousePress(button, lastMouseX, lastMouseY, true);
+    if(!mouseOverriden)
+    {
+        simulateMousePress(button, lastMouseX, lastMouseY, true);
+    }
 });
 
 IMG_Advanced.canvas.addEventListener('mouseup', function(e)
 {
     var button = e.button;
-    simulateMousePress(button, lastMouseX, lastMouseY, false);
+    if(!mouseOverriden)
+    {
+        simulateMousePress(button, lastMouseX, lastMouseY, false);
+    }
 });
 
 var advancedMode = false;
@@ -167,6 +260,7 @@ function tick()
     if(stackMode != -1)
     {
         timeNow = new Date().getTime();
+        ticksPassed = timeNow - lastButtonClicked;
         picArray[stackMode].tick();
     }
     advancedTimer -= 1;
@@ -174,16 +268,18 @@ function tick()
 setInterval(tick, 20);
 
 function getScreenConstant(){if(window.innerWidth > window.innerHeight * 16 / 9){return window.innerWidth;}return window.innerHeight * 16 / 9;}
-function simulateKeyPress(key, hold)
+function rotateAngle(x, y, deg){var ret = {};if(deg === 0){ret[0] = x;ret[1] = y;}else{var transX = Math.cos(deg * Math.PI / 180);var transY = Math.sin(deg * Math.PI / 180);ret[0] = x * transX - y * transY;ret[1] = y * transX + x * transY;}return ret;}
+function GetCoordClamp(mouseX, mouseY){var ret = {};var hsx = window.innerWidth / 2;var hsy = window.innerHeight / 2;var amx = mouseX - hsx;var amy = mouseY - hsy;var dc = 0.96;if((amx > -hsx * dc) && (amx < hsx * dc) && (amy > -hsy * dc) && (amy < hsy * dc)){ret[0] = mouseX;ret[1] = mouseY;return ret;}else{var fA = (amx * hsy) - (amy * hsx);var fB = (amx * hsy) + (amy * hsx);if(fA > 0){if(fB > 0){amy = amy * (hsx * dc / amx);amx = hsx * dc;}else{amx = amx * (-hsy * dc / amy);amy = -hsy * dc;}}else{if(fB > 0){amx = amx * (hsy * dc / amy);amy = hsy * dc;}else{amy = amy * (-hsx * dc / amx);amx = -hsx * dc;}}ret[0] = amx + hsx;ret[1] = amy + hsy;}return ret;}
+
+function simulateKeyPress(key, press)
 {
-    var eventObj;
-    if(hold)
+    if(press)
     {
-        eventObj = document.createEvent("Events"); eventObj.initEvent("keydown", true, true); eventObj.keyCode = key; window.dispatchEvent(eventObj);
+        input.keyDown(key);
     }
     else
     {
-        eventObj = document.createEvent("Events"); eventObj.initEvent("keyup", true, true); eventObj.keyCode = key; window.dispatchEvent(eventObj);
+        input.keyUp(key);
     }
 }
 
